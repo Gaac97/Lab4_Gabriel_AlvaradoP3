@@ -7,15 +7,17 @@ using std::endl;
 void Ejercicio1();
 int** Ejecicio2();
 void Ejercicio3(char**,int);
-void llenar_matriz(char,char**);
+void llenar_matriz(int,char,char**);
 void acomodar_mensaje(char,char);
 char** CrearMatrizL(int);
 int** CrearMatriz(int);
 char** llenarMatriz(int,int**,int);
 int*** CrearMatrizTri(int);
+void PrintM(char**,int);
 void imprimirMatriz(int**,int);
 int UltimaMatriz(int,char,char**);
 char alf[]={'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+void FreeMatriz(char**&,int&);
 
 
 int main(){
@@ -25,11 +27,14 @@ int*** Tri=NULL;
 char** Matriz3=NULL;
 while(opcion!=4){
 	cout<<"Ingrese ejercicio"<<endl;
-	cout << "Eercicio 1"<<endl;
-	cout<< "Ejercicio 2"<< endl;
-	cout<< "Ejercicio 3" <<endl;
+	cout <<"1.Eercicio 1"<<endl;
+	cout<< "2.Ejercicio 2"<< endl;
+	cout<< "3.Ejercicio 3" <<endl;
+	cout <<"4.Liberar memoria"<<endl;
 	cout<< " Salir 4"<<endl;
+	
 	cin>>opcion;
+
 	if(opcion==1){
 		//Ejercicio1();
 
@@ -40,11 +45,16 @@ while(opcion!=4){
 		
 
 		}
-	if (opcion=3){
+	if (opcion==3){
 
 		Ejercicio3(Matriz3, size);
+
 				
 
+	}
+
+	if(opcion==4){
+	FreeMatriz(Matriz3,size);
 	}
 
 	}
@@ -66,12 +76,41 @@ void imprimirMatriz(int**matriz, int size){
 
 }
 
+void PrintM(char** matriz,int size){
+	for(int i=0; i<size; i++){
+              for(int j=0; j<size; j++){
+
+                    if (matriz[i][j]<10){
+                          cout<<"0" << matriz[i][j];
+                     }else{
+                           cout<<"[ "<< matriz[i][j]<< "] ";
+                          }
+                  }
+                  cout<<endl;
+         }
+
+	
+
+}
+
+void FreeMatriz(char**& matriz, int& size){
+        //Liberar arreglo de ints
+        for(int i = 0; i<size;i++){
+                delete[]matriz[i];
+                matriz[i] = NULL;
+        }
+        //Liberar arreglo de apuntadores a int
+        delete[] matriz;
+        matriz = NULL;
+        size = 0;
+}
 
 int UltimaLetra(int size,char letra, char** matriz){
 
 	for(int i=0;i<size;i++){
 		for(int j=0; j<size; j++){
 			if(letra == matriz[i][j]){
+
 			return 1;
 			}
 		
@@ -173,9 +212,13 @@ int** arr = new int*[size];
         }
 }
 
+}
+
 
 char** CrearMatrizL(int size){
+
 char** arr = new char*[size];
+
 
         for(int i = 0 ; i<size;i++){
                  arr[i]= new char [size];
@@ -183,35 +226,34 @@ char** arr = new char*[size];
         }
 
         for(int j=0; j<size;j++){
-                for(int z =0; z<size;z++){
+                for(int z=0; z<size;z++){
                 arr[j][z] = '0';
 
 
 	}
-}
+    }
 return arr;
 }
 
-
-
 void Ejercicio3(char** matriz,int size){
-
  char m[100];
-        char clave[100];
-        cout<<"Ingrese mensaje a cifrar:";
+ char clave[100];
+        cout<<"Ingrese mensaje a cifrar:"<<endl;
         cin.getline(m,100);
-        cout<<"Ingrese clave:";
+	cin.getline(m,100);
+        cout<<"Ingrese clave:"<<endl;
         cin.getline(clave,100);
-        matriz = CrearMatrizL(size);
+ 	matriz = CrearMatrizL(size);
 
 
-	 llenar_matriz(clave,matriz);
+	 llenar_matriz(size,clave,matriz);
 	 
 
         char m2[100];
         acomodar_mensaje(m2,m);
 
-	imprimirMatriz(matriz,size);
+	PrintM(matriz,size);
+
 
         int i=0;
         int j=1;
@@ -224,7 +266,8 @@ void Ejercicio3(char** matriz,int size){
                         m2[j]='i';
                 }
                 for(int x=0;x<size;x++){
-                        for(int y=0;y<size;y++){
+			for(int y=0;y<size;y++){
+
                                 if(m2[i]==matriz[x][y]){
                                         fila1=x;
                                         columna1=y;
@@ -259,6 +302,8 @@ void Ejercicio3(char** matriz,int size){
         }
         cout<<endl<<endl;
 
-
 }
+
+
+
 
